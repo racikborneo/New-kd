@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Translator Pro</title>
+  
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f46e5">
+</head>
+
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>💬 Chat</h2>
+      <button id="newChatBtn" class="btn-primary">+ Baru</button>
+      <button id="dictionaryBtn" class="btn-secondary" title="Kelola Kamus Pribadi">📚 Kamusku</button>
+    </div>
+    <div class="chat-list-container" id="chatListContainer">
+      <div id="chatList" class="chat-list"></div>
+    </div>
+  </aside>
+
+  <!-- Main Chat Area -->
+  <div class="main">
+    <header class="main-header">
+      <button id="menuToggle" class="icon-btn">☰</button>
+      <h3>🌐 Translator Pro</h3>
+      <div style="display: flex; gap: 8px;">
+        <button id="installBtn" class="icon-btn" title="Install aplikasi" style="display: none;">📱</button>
+        <button id="themeToggle" class="icon-btn" title="Ganti tema">🌙</button>
+      </div>
+    </header>
+
+    <!-- Chat Container (messages + empty state) -->
+    <div class="chat-container" id="chatContainer">
+      <div id="chatMessages" class="chat-messages"></div>
+      
+      <!-- Empty State Suggestions -->
+      <div id="emptySuggestions" class="empty-suggestions">
+        <h2 class="suggestions-title">Pilih untuk diterjemahkan</h2>
+        <div class="suggestions-grid">
+          <button class="suggestion-card" data-phrase="Ahe kabar">Ahe kabar</button>
+          <button class="suggestion-card" data-phrase="Sangahe duit nyu">Sangahe duit nyu</button>
+          <button class="suggestion-card" data-phrase="Ujeh diri basaroh">Ujeh diri basaroh</button>
+          <button class="suggestion-card" data-phrase="Ampus ka' uma">Ampus ka' uma</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Suggestions (saat mengetik) -->
+    <div id="suggestions" class="suggestions"></div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+      <input type="text" id="messageInput" placeholder="Ketik pesan..." autocomplete="off" />
+      <button id="sendBtn" class="send-btn">➤</button>
+    </div>
+
+    <!-- Dictionary Manager View -->
+    <div id="dictionaryView" class="dictionary-view hidden">
+      <div class="dictionary-header">
+        <h2>📖 Kamus Pribadi</h2>
+        <button id="showAddWordModalBtn" class="btn-primary">+ Tambah Kata</button>
+      </div>
+      <div class="dictionary-list-container">
+        <div id="customDictList" class="custom-dict-list"></div>
+        <div id="emptyDictMessage" class="empty-dict-message">
+          Belum ada kata yang ditambahkan. Klik "Tambah Kata" untuk mulai melatih translator.
+        </div>
+      </div>
+      <button id="backToChatBtn" class="btn-secondary" style="margin-top: 1rem;">← Kembali ke Chat</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal Tambah Kata -->
+<div id="addWordModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>➕ Tambah Kata Baru</h3>
+      <button class="modal-close" id="closeModalBtn">&times;</button>
+    </div>
+    <div class="modal-body">
+      <label>Kata / Kalimat Asal:</label>
+      <input type="text" id="sourceWordInput" placeholder="Contoh: Ahe kabar" autocomplete="off" />
+      <label>Terjemahan:</label>
+      <input type="text" id="targetWordInput" placeholder="Contoh: Apa kabar" autocomplete="off" />
+    </div>
+    <div class="modal-footer">
+      <button id="saveWordBtn" class="btn-primary">Simpan</button>
+      <button id="cancelModalBtn" class="btn-secondary">Batal</button>
+    </div>
+  </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="loading-overlay hidden">
+  <div class="spinner"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
