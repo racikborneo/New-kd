@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Nelsen Ahe • Kamus Dayak</title>
+  
+  <!-- Font & CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+<div class="app">
+
+  <!-- Sidebar Riwayat -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>💬 Riwayat</h2>
+      <button id="newChatBtn" class="btn-primary">+ Percakapan</button>
+      <button id="dictionaryBtn" class="btn-secondary">📚 Kamus Pribadi</button>
+    </div>
+    <div class="chat-list-container">
+      <div id="chatList" class="chat-list"></div>
+    </div>
+  </aside>
+
+  <!-- Main Area -->
+  <main class="main">
+    <header class="main-header">
+      <div class="header-left">
+        <button id="menuToggle" class="icon-btn" aria-label="Menu">☰</button>
+        <div class="brand">
+          <h1>Nelsen Ahe</h1>
+          <span class="status"><span class="dot"></span> Dayak ⇄ Indonesia</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <button id="installBtn" class="icon-btn" title="Install aplikasi" style="display: none;">📱</button>
+        <button id="themeToggle" class="icon-btn" aria-label="Ganti tema">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Chat Container -->
+    <div class="chat-container" id="chatContainer">
+      <div id="chatMessages" class="chat-messages">
+        <div class="system-msg">👋 Selamat datang di Nelsen Ahe. Ketik kata dalam bahasa Dayak atau Indonesia.</div>
+      </div>
+      
+      <!-- Empty State Suggestions -->
+      <div id="emptySuggestions" class="empty-suggestions">
+        <h2 class="suggestions-title">✨ Coba terjemahkan</h2>
+        <div class="suggestions-grid">
+          <button class="suggestion-card" data-phrase="Ahe kabar">Ahe kabar</button>
+          <button class="suggestion-card" data-phrase="Sangahe duit nyu">Sangahe duit nyu</button>
+          <button class="suggestion-card" data-phrase="Ujeh diri' basaroh">Ujeh diri' basaroh</button>
+          <button class="suggestion-card" data-phrase="Ampus ka' uma">Ampus ka' uma</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Suggestions -->
+    <div id="suggestions" class="suggestions-bar"></div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+      <div class="input-wrapper">
+        <input type="text" id="userInput" placeholder="Ketik kata atau kalimat..." autocomplete="off" enterkeyhint="send">
+        <button id="sendBtn" aria-label="Kirim">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Kamus Pribadi View -->
+    <div id="dictionaryView" class="dictionary-view hidden">
+      <div class="dictionary-header">
+        <h2>📖 Kamus Pribadi</h2>
+        <button id="showAddWordModalBtn" class="btn-primary">+ Tambah Kata</button>
+      </div>
+      <div class="dictionary-list-container">
+        <div id="customDictList" class="custom-dict-list"></div>
+        <div id="emptyDictMessage" class="empty-dict-message">
+          Belum ada kosakata yang ditambahkan. Klik “Tambah Kata” untuk melatih Nelsen.
+        </div>
+      </div>
+      <button id="backToChatBtn" class="btn-secondary btn-back">← Kembali ke Chat</button>
+    </div>
+  </main>
+</div>
+
+<!-- Modal Tambah/Edit Kata -->
+<div id="wordModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">➕ Tambah Kata</h3>
+      <button class="modal-close" id="closeModalBtn">&times;</button>
+    </div>
+    <div class="modal-body">
+      <label for="sourceWordInput">Kata Asal (Dayak / Indonesia)</label>
+      <input type="text" id="sourceWordInput" placeholder="Contoh: Ahe kabar" autocomplete="off">
+      <label for="targetWordInput">Terjemahan</label>
+      <input type="text" id="targetWordInput" placeholder="Contoh: Apa kabar" autocomplete="off">
+    </div>
+    <div class="modal-footer">
+      <button id="saveWordBtn" class="btn-primary">Simpan</button>
+      <button id="cancelModalBtn" class="btn-secondary">Batal</button>
+    </div>
+  </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="loading-overlay hidden">
+  <div class="spinner"></div>
+</div>
+
+<script src="script.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(console.error);
+    });
+  }
+</script>
+</body>
+</html>
